@@ -1,6 +1,4 @@
 const refs = {
-  startBtn: document.querySelector('.start'),
-  stopBtn: document.querySelector('.stop'),
   days: document.querySelector('[data-value="days"]'),
   hours: document.querySelector('[data-value="hours"]'),
   minutes: document.querySelector('[data-value="mins"]'),
@@ -8,12 +6,11 @@ const refs = {
 };
 
 class CountdownTimer {
-  constructor({ onTick, targetDate, selector }) {
+  constructor({ onTick, targetDate }) {
     this.intervalId = null;
-    this.isActive = false;
     this.onTick = onTick;
-    this.selector = selector;
     this.targetDate = targetDate;
+    this.start();
     this.init();
   }
 
@@ -23,11 +20,6 @@ class CountdownTimer {
   }
 
   start() {
-    if (this.isActive) {
-      return;
-    }
-
-    this.isActive = true;
     const startTime = this.targetDate;
 
     this.intervalId = setInterval(() => {
@@ -63,7 +55,7 @@ class CountdownTimer {
 
 const timer = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Jul 17, 2021'),
+  targetDate: new Date('June 5, 2021'),
   onTick: upDateClockFace,
 });
 
@@ -73,31 +65,3 @@ function upDateClockFace({ days, hours, mins, secs }) {
   refs.minutes.textContent = `${mins}`;
   refs.seconds.textContent = `${secs}`;
 }
-
-refs.startBtn.addEventListener('click', timer.start.bind(timer));
-refs.stopBtn.addEventListener('click', timer.stop.bind(timer));
-
-/*
- * Оставшиеся дни: делим значение UTC на 1000 * 60 * 60 * 24, количество
- * миллисекунд в одном дне (миллисекунды * секунды * минуты * часы)
- */
-// const days = Math.floor(time / (1000 * 60 * 60 * 24));
-
-// /*
-//  * Оставшиеся часы: получаем остаток от предыдущего расчета с помощью оператора
-//  * остатка % и делим его на количество миллисекунд в одном часе
-//  * (1000 * 60 * 60 = миллисекунды * минуты * секунды)
-//  */
-// const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-// /*
-//  * Оставшиеся минуты: получаем оставшиеся минуты и делим их на количество
-//  * миллисекунд в одной минуте (1000 * 60 = миллисекунды * секунды)
-//  */
-// const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-
-// /*
-//  * Оставшиеся секунды: получаем оставшиеся секунды и делим их на количество
-//  * миллисекунд в одной секунде (1000)
-//  */
-// const secs = Math.floor((time % (1000 * 60)) / 1000);

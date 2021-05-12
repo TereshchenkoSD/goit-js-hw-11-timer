@@ -1,0 +1,8 @@
+.timer {
+  display: flex;
+  flex-direction: row;
+}
+
+.field:not(:last-child) {
+  margin-right: 10px;
+}
